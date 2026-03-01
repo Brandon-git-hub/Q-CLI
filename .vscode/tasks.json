@@ -1,0 +1,83 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🪄 Simulate (make all)",
+            "type": "shell",
+            "command": "conda run -n Open_EDA make all",
+            "options": {
+                "cwd": "${workspaceFolder}/sim"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "close": false,              // 任務成功結束後自動關閉
+                "showReuseMessage": false   // 成功時不顯示「按任意鍵...」
+            },
+            "problemMatcher": [],
+            "detail": "Clean, compile RTL and Testbench, and run the simulation in the Open_EDA env."
+        },
+        {
+            "label": "📈 View Waveform (make wave)",
+            "type": "shell",
+            "command": "conda run -n Open_EDA make wave",
+            "group": "none",
+            "presentation": {
+                "close": true, 
+                "showReuseMessage": false 
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/sim"
+            },
+            "problemMatcher": [],
+            "detail": "Open GTKWave to view the simulation results in the Open_EDA env."
+        },
+        {
+            "label": "💡 Synthesize (make synth)",
+            "type": "shell",
+            "command": "conda run -n Open_EDA make synth",
+            "group": "none",
+            "presentation": {
+                "close": true, 
+                "showReuseMessage": false 
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/sim"
+            },
+            "problemMatcher": [],
+            "detail": "Run Yosys synthesis and generate schematics in the Open_EDA env."
+        },
+        {
+            "label": "🧹 Clean (make clean)",
+            "type": "shell",
+            "command": "conda run -n Open_EDA make clean",
+            "group": "none",
+            "presentation": {
+                "close": true, 
+                "showReuseMessage": false 
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/sim"
+            },
+            "problemMatcher": [],
+            "detail": "Remove all generated files in the Open_EDA env."
+        },
+        {
+            "label": "🔎 Run Gemini CLI",
+            "type": "shell",
+            "command": "conda run --no-capture-output -n Open_EDA gemini",
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "focus": true, 
+                "echo": true,
+                "close": false
+            },
+            "problemMatcher": [],
+            "detail": "Launch the Gemini CLI in a new interactive terminal."
+        }
+    ]
+}
