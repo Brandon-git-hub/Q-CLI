@@ -1,6 +1,6 @@
 # 定義變數
-RTL = ../rtl/tap_fsm.v
-TB  = ../sim/tb_tap.v
+RTL = ../rtl/fpga_project.v
+TB  = ../sim/tb_fpga_project.v
 
 all: clean compile run
 
@@ -11,13 +11,8 @@ run:
 	vvp sim.out
 
 wave:
-	gtkwave tb_top_module.vcd waves.gtkw
+	gtkwave tb_fpga_project.vcd waves.gtkw
 
-# synth:
-# 	yosys -s ./synth.ys 2>&1 | tee ./synth.log && \
-# 	netlistsvg ./top_module.json -o schematic.svg --skin ../lib/digital_color.svg
-
-# Synth: Run Yosys synthesis and generate multi-stage schematics
 synth:
 	@echo "Starting Synthesis and Schematic Generation..."
 	yosys -s ./synth.ys 2>&1 | tee ./synth.log

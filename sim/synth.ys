@@ -1,0 +1,24 @@
+# Read design files
+read_verilog ../rtl/fpga_project.v
+hierarchy -check -top fpga_project
+
+# --- Stage 1: RTL Level (Generic RTL) ---
+# Translate 'always' blocks into logic gates and DFFs
+proc; 
+# Perform initial logic optimization (e.g., constant folding)
+opt; 
+write_json rtl_level.json
+
+# --- Stage 2: Logic Optimization Level ---
+# Extract and optimize Finite State Machines (FSMs)
+fsm;
+opt;
+write_json opt_level.json
+
+# --- Stage 3: Gate Level (Technology Mapping) ---
+# Map generic logic to standard cell primitives (SDFF, XOR, etc.)
+techmap; 
+opt;
+# Output the synthesized netlist
+write_verilog ./synth_output.v
+write_json gate_level.json

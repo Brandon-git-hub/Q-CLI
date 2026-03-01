@@ -1,3 +1,22 @@
+# Simulation artifacts
+sim.out
+*.vcd
+
+# Synthesis results
+synth_output.v
+synth.log
+sim/*.json
+
+# Visualization and Documentation
+*.svg
+rtl/*.svg
+rtl/*.md
+assets/
+
+# Waveform configuration (Keep this if you want to share your GTKWave setup)
+*.gtkw
+
+# Quartus
 db/
 incremental_db/
 output_files/

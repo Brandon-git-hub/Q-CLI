@@ -21,7 +21,7 @@ module fpga_project(
 //=======================================================
 //  PARAMETER declarations
 //=======================================================
-
+localparam CLK_DIV = 2; // 2^24 = 16M
 
 //=======================================================
 //  PORT declarations
@@ -43,15 +43,31 @@ input 		     [3:0]		SW;
 //=======================================================
 //  REG/WIRE declarations
 //=======================================================
+reg [CLK_DIV-1 : 0] CLK_DIV_reg = {CLK_DIV{1'b0}};
+reg [7:0] led_counter = 8'h00;
+// for detect rising
+reg clk_1hz_d;
 
-
-
+wire clk_1hz =  CLK_DIV_reg[CLK_DIV-1];
+wire tick_1hz = clk_1hz & ~clk_1hz_d;
 
 //=======================================================
 //  Structural coding
 //=======================================================
-assign LED[0] = 1'b1;
-assign LED[7:1] = 7'b0;
+assign LED = led_counter;
 
+always @(posedge CLOCK_50) begin
+	CLK_DIV_reg <= CLK_DIV_reg + 1'b1;
+end
+
+always @ (posedge CLOCK_50) begin
+	clk_1hz_d <= clk_1hz;
+end
+
+always @ (posedge CLOCK_50) begin
+	if (tick_1hz) begin
+		led_counter <= led_counter + 1'b1;
+	end
+end
 
 endmodule
