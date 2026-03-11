@@ -23,8 +23,11 @@ module tb_fpga_project();
     // 測試流程
     initial begin
         // Initialize Inputs
-        KEY = 0;
-        SW  = 0;
+        KEY = 2'b10;
+        SW  = 'd0;
+
+        #5;
+        KEY[0] = 1;
         $display("Test Start.");
 
         #200;
