@@ -8,8 +8,8 @@ synth.log
 sim/*.json
 
 # Visualization and Documentation
-*.svg
 rtl/*.svg
+sim/*.svg
 rtl/*.md
 assets/
 
