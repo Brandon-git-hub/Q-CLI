@@ -41,7 +41,7 @@
         {
             "label": "🪄 Simulate (make all)",
             "type": "shell",
-            "command": "conda run -n Open_EDA make all",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make all",
             "options": {
                 "cwd": "${workspaceFolder}/sim"
             },
@@ -59,7 +59,7 @@
         {
             "label": "📈 View Waveform (make wave)",
             "type": "shell",
-            "command": "conda run -n Open_EDA make wave",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make wave",
             "group": "none",
             "presentation": {
                 "close": true, 
@@ -74,7 +74,7 @@
         {
             "label": "💡 Synthesize (make synth)",
             "type": "shell",
-            "command": "conda run -n Open_EDA make synth",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make synth",
             "group": "none",
             "presentation": {
                 "close": true, 
@@ -89,7 +89,7 @@
         {
             "label": "🧹 Clean (make clean)",
             "type": "shell",
-            "command": "conda run -n Open_EDA make clean",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make clean",
             "group": "none",
             "presentation": {
                 "close": true, 
@@ -104,7 +104,7 @@
         {
             "label": "🔎 Run Gemini CLI",
             "type": "shell",
-            "command": "conda run --no-capture-output -n Open_EDA gemini",
+            "command": "source ~/.bashrc && conda run --no-capture-output -n Open_EDA gemini",
             "group": "none",
             "presentation": {
                 "reveal": "always",
