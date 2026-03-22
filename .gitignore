@@ -1,5 +1,5 @@
 # Simulation artifacts
-sim.out
+sim/*.out
 *.vcd
 
 # Synthesis results

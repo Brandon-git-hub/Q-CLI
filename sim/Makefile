@@ -1,17 +1,31 @@
 # 定義變數
-RTL = ../rtl/fpga_project.v
-TB  = ../sim/tb_fpga_project.v
+RTL_ALL = ../rtl/fpga_project.v ../rtl/uart_tx.v ../rtl/uart_rx.v ../rtl/gpio_bit_bang.v
+TB_PROJECT = ../sim/tb_fpga_project.v
+TB_MODULES = ../sim/tb_modules.v
 
-all: clean compile run
+all: clean compile_project run_project
 
-compile:
-	iverilog -o sim.out $(RTL) $(TB)
+# 頂層專案模擬
+compile_project:
+	iverilog -o sim_project.out ../rtl/fpga_project.v $(TB_PROJECT)
 
-run:
-	vvp sim.out
+run_project:
+	vvp sim_project.out
 
-wave:
+wave_project:
 	gtkwave tb_fpga_project.vcd waves.gtkw
+
+# 獨立模組模擬 (UART & GPIO)
+modules: clean compile_modules run_modules
+
+compile_modules:
+	iverilog -o sim_modules.out $(RTL_ALL) $(TB_MODULES)
+
+run_modules:
+	vvp sim_modules.out
+
+wave_modules:
+	gtkwave tb_modules.vcd
 
 synth:
 	@echo "Starting Synthesis and Schematic Generation..."
@@ -23,4 +37,4 @@ synth:
 	@echo "Synthesis complete. Files generated: schematic_rtl.svg, schematic_opt.svg, schematic_gate.svg"
 
 clean:
-	rm -f sim.out *.vcd *.dot *.png *.gtkw *.svg *.json synth.log synth_output.v
+	rm -f *.out *.vcd *.dot *.png *.gtkw *.svg *.json synth.log synth_output.v

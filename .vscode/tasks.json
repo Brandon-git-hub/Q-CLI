@@ -39,7 +39,7 @@
             "detail": "使用 quartus_pgm 將 .sof 燒錄至 DE0-Nano。"
         },
         {
-            "label": "🪄 Simulate (make all)",
+            "label": "🪄 Simulate Project (make all)",
             "type": "shell",
             "command": "source ~/.bashrc && conda run -n Open_EDA make all",
             "options": {
@@ -54,12 +54,30 @@
                 "showReuseMessage": false 
             },
             "problemMatcher": [],
-            "detail": "Clean, compile RTL and Testbench, and run the simulation in the Open_EDA env."
+            "detail": "Clean, compile RTL and Testbench, and run the project simulation (fpga_project.v)."
         },
         {
-            "label": "📈 View Waveform (make wave)",
+            "label": "🪄 Simulate Modules (make modules)",
             "type": "shell",
-            "command": "source ~/.bashrc && conda run -n Open_EDA make wave",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make modules",
+            "options": {
+                "cwd": "${workspaceFolder}/sim"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "close": false,              
+                "showReuseMessage": false 
+            },
+            "problemMatcher": [],
+            "detail": "Clean, compile RTL and Testbench, and run the module simulation (UART/GPIO)."
+        },
+        {
+            "label": "📈 View Modules Waveform (make wave_modules)",
+            "type": "shell",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make wave_modules",
             "group": "none",
             "presentation": {
                 "close": true, 
@@ -69,7 +87,22 @@
                 "cwd": "${workspaceFolder}/sim"
             },
             "problemMatcher": [],
-            "detail": "Open GTKWave to view the simulation results in the Open_EDA env."
+            "detail": "Open GTKWave to view the UART/GPIO simulation results."
+        },
+        {
+            "label": "📈 View Project Waveform (make wave_project)",
+            "type": "shell",
+            "command": "source ~/.bashrc && conda run -n Open_EDA make wave_project",
+            "group": "none",
+            "presentation": {
+                "close": true, 
+                "showReuseMessage": false 
+            },
+            "options": {
+                "cwd": "${workspaceFolder}/sim"
+            },
+            "problemMatcher": [],
+            "detail": "Open GTKWave to view the project simulation results."
         },
         {
             "label": "💡 Synthesize (make synth)",
