@@ -67,7 +67,7 @@ module fpga_project
 //=======================================================
 //  PARAMETER declarations
 //=======================================================
-localparam HIGH = DIVIDER + 2; 
+
 
 //=======================================================
 //  PORT declarations
@@ -130,18 +130,88 @@ input 		     [1:0]		GPIO_1_IN;
 //=======================================================
 //  REG/WIRE declarations
 //=======================================================
-reg [WIDTH-1:0] mtime;
-wire [2:0] mtimeslice = mtime[HIGH:DIVIDER];
+
+wire rst_n = KEY[0];
+
+// 1MHz Clock Generator
+reg [4:0] clk_1m_cnt;
+reg clk_1mhz;
+
+// UART Signals
+wire rx_ready;
+wire [7:0] rx_data;
+wire tx_busy;
+wire uart_tx_pin;
+
+// GPIO Bit Bang Signals
+wire pa3_out, pa4_out, pa6_out;
+
+// GPIO Assignments
+// GPIO_0[0] as UART RX
+wire uart_rx_pin = GPIO_0[0];
+// GPIO_0[1] as UART TX
+assign GPIO_0[1] = uart_tx_pin;
+
+// GPIO_0[2] as 1MHz clock output
+assign GPIO_0[2] = clk_1mhz;
+
+// GPIO_0[3] as input pin to read level (output to LED[0] for monitoring)
+wire gpio_in_pin = GPIO_0[3];
+assign LED[0] = gpio_in_pin;
+assign LED[7:1] = 7'b0;
+
+// GPIO_0[4], GPIO_0[5], GPIO_0[6] as bit bang outputs
+assign GPIO_0[4] = pa3_out;
+assign GPIO_0[5] = pa4_out;
+assign GPIO_0[6] = pa6_out;
 
 //=======================================================
 //  Structural coding
 //=======================================================
 
-always @ (posedge CLOCK_50 or negedge KEY[0]) begin
-	if (!KEY[0]) mtime <= 'd0;
-	else mtime <= mtime + 'd1;
+// 1MHz Clock Generator (Toggle every 25 cycles of 50MHz clock)
+always @(posedge CLOCK_50 or negedge rst_n) begin
+	if (!rst_n) begin
+		clk_1m_cnt <= 0;
+		clk_1mhz <= 0;
+	end else begin
+		if (clk_1m_cnt == 24) begin
+			clk_1m_cnt <= 0;
+			clk_1mhz <= ~clk_1mhz;
+		end else begin
+			clk_1m_cnt <= clk_1m_cnt + 1;
+		end
+	end
 end
 
-assign LED = (KEY[0]) ?(8'd1 << mtimeslice) : 8'd0;
+// UART RX
+uart_rx u_rx (
+	.clk(CLOCK_50),
+	.rst_n(rst_n),
+	.rx(uart_rx_pin),
+	.rx_data(rx_data),
+	.rx_ready(rx_ready)
+);
+
+// UART TX (Loopback)
+uart_tx u_tx (
+	.clk(CLOCK_50),
+	.rst_n(rst_n),
+	.tx_start(rx_ready), // Loopback: send data when received
+	.tx_data(rx_data), 
+	.tx(uart_tx_pin),
+	.tx_busy(tx_busy)
+);
+
+// GPIO Bit Bang
+gpio_bit_bang u_bang (
+	.clk(CLOCK_50),
+	.rst_n(rst_n),
+	.bang_start(SW[0]),
+	.bang_data_in(SW[3:1]),
+	.pa3(pa3_out),
+	.pa4(pa4_out),
+	.pa6(pa6_out)
+);
 
 endmodule
