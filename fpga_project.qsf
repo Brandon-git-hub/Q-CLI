@@ -6,7 +6,12 @@ set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE22F17C6
 set_global_assignment -name TOP_LEVEL_ENTITY "fpga_project"
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "12.0"
-set_global_assignment -name LAST_QUARTUS_VERSION "12.0"
+set_global_assignment -name LAST_QUARTUS_VERSION "21.1.0 Lite Edition"
+set_global_assignment -name VERILOG_FILE rtl/fpga_project.v
+set_global_assignment -name VERILOG_FILE rtl/gpio_bit_bang.v
+set_global_assignment -name VERILOG_FILE rtl/uart_rx.v
+set_global_assignment -name VERILOG_FILE rtl/uart_tx.v
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "00:20:08 MARCH 19,2026"
 set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
 set_global_assignment -name DEVICE_FILTER_PIN_COUNT 256
