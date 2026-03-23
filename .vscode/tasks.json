@@ -22,9 +22,9 @@
             "detail": "執行 Tcl 設定並呼叫 Quartus Flow 進行全編譯。"
         },
         {
-            "label": "⚡ FPGA: Program (USB-Blaster)",
+            "label": "⚡ FPGA: Program SRAM (USB-Blaster)",
             "type": "shell",
-            "command": "./program.sh",
+            "command": "./program_sram.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -37,6 +37,23 @@
             },
             "problemMatcher": [],
             "detail": "使用 quartus_pgm 將 .sof 燒錄至 DE0-Nano。"
+        },
+        {
+            "label": "⚡ FPGA: Program EPCS (USB-Blaster)",
+            "type": "shell",
+            "command": "./program_epcs.sh",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "none",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "focus": true,
+                "close": false
+            },
+            "problemMatcher": [],
+            "detail": "使用 quartus_pgm 將 .jic 燒錄至 DE0-Nano。"
         },
         {
             "label": "🪄 Simulate Project (make all)",
