@@ -24,7 +24,7 @@
         {
             "label": "⚡ FPGA: Program SRAM (USB-Blaster)",
             "type": "shell",
-            "command": "./program_sram.sh",
+            "command": "source ~/.bashrc && ./program_sram.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -41,7 +41,7 @@
         {
             "label": "⚡ FPGA: Program EPCS (USB-Blaster)",
             "type": "shell",
-            "command": "./program_epcs.sh",
+            "command": "source ~/.bashrc && ./program_epcs.sh",
             "options": {
                 "cwd": "${workspaceFolder}"
             },

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JIC_FILE="output_files/fpga_project.sof"
+JIC_FILE="output_files/fpga_project.jic"
 
 echo "Checking for USB-Blaster..."
 quartus_pgm.exe -l
