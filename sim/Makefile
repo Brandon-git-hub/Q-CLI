@@ -1,5 +1,5 @@
 # 定義變數
-RTL_ALL = ../rtl/fpga_project.v ../rtl/uart_tx.v ../rtl/uart_rx.v ../rtl/gpio_bit_bang.v
+RTL_ALL = ../rtl/fpga_project.v ../rtl/uart_tx.v ../rtl/uart_rx.v ../rtl/gpio_bit_bang.v ../rtl/fifo.v
 TB_PROJECT = ../sim/tb_fpga_project.v
 TB_MODULES = ../sim/tb_modules.v
 
@@ -7,7 +7,7 @@ all: clean compile_project run_project
 
 # 頂層專案模擬
 compile_project:
-	iverilog -o sim_project.out ../rtl/fpga_project.v $(TB_PROJECT)
+	iverilog -o sim_project.out $(RTL_ALL) $(TB_PROJECT)
 
 run_project:
 	vvp sim_project.out

@@ -142,6 +142,10 @@ wire rx_ready;
 wire [7:0] rx_data;
 wire tx_busy;
 wire uart_tx_pin;
+wire fifo_full;
+wire fifo_empty;
+wire [7:0] fifo_rd_data;
+wire fifo_rd_en;
 
 // GPIO Bit Bang Signals
 wire pa3_out, pa4_out, pa6_out;
@@ -193,12 +197,34 @@ uart_rx u_rx (
 	.rx_ready(rx_ready)
 );
 
-// UART TX (Loopback)
+// FIFO to buffer UART data
+fifo #(
+    .DATA_WIDTH(8),
+    .FIFO_DEPTH(16)
+) u_fifo (
+    .clk(CLOCK_50),
+    .rst_n(rst_n),
+
+    // Write Port (from UART RX)
+    .wr_en(rx_ready),
+    .wr_data(rx_data),
+    .full(fifo_full),
+
+    // Read Port (to UART TX)
+    .rd_en(fifo_rd_en),
+    .rd_data(fifo_rd_data),
+    .empty(fifo_empty)
+);
+
+// Read from FIFO when TX is not busy and FIFO is not empty
+assign fifo_rd_en = !tx_busy && !fifo_empty;
+
+// UART TX (from FIFO)
 uart_tx u_tx (
 	.clk(CLOCK_50),
 	.rst_n(rst_n),
-	.tx_start(rx_ready), // Loopback: send data when received
-	.tx_data(rx_data), 
+	.tx_start(fifo_rd_en),
+	.tx_data(fifo_rd_data), 
 	.tx(uart_tx_pin),
 	.tx_busy(tx_busy)
 );
