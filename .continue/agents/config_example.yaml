@@ -1,0 +1,35 @@
+# This is an example configuration file
+# To learn more, see the full config.yaml reference: https://docs.continue.dev/reference
+
+name: FPGA Project Config
+version: 1.0.0
+schema: v1
+
+# Define which models can be used
+# https://docs.continue.dev/customization/models
+models:
+  - uses: google/gemini-3-pro-preview
+    with:
+      GEMINI_API_KEY: XXXXXXXXXXXXXXXXXXXXXX
+  - uses: google/gemini-3-flash-preview
+    with:
+      GEMINI_API_KEY: XXXXXXXXXXXXXXXXXXXXXX
+  - name: Gemni 2.5 Flash Lite
+    provider: gemini
+    model: gemini-2.5-flash-lite
+    apiKey: XXXXXXXXXXXXXXXXXXXXXX
+    maxStopWords: 5
+    roles:
+      - autocomplete
+    autocompleteOptions:
+      debounceDelay: 500
+      maxPromptTokens: 512
+      modelTimeout: 5000
+      useCache: true
+      useRecentlyEdited: true
+      onlyMyCode: true
+      transform: false
+      template: "You are a code completion assistant. Based on the code before and after the cursor, output ONLY the code to be inserted at the cursor position. Do not include any explanations or extra text.\n\nPrefix:\n{{{ prefix }}}\n\nSuffix:\n{{{ suffix }}}"
+    defaultCompletionOptions:
+      temperature: 0.0
+      maxTokens: 64
